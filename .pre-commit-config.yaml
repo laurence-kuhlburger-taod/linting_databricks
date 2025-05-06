@@ -1,0 +1,20 @@
+repos:
+  # Ruff: Fast Python linter
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.287  # Use the specific version you need
+    hooks:
+      - id: ruff
+        args: ["--fix"]  # Auto-fix linting issues
+
+  # Black: Python code formatter
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+
+  # isort: Automatically organize imports
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.10.1
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]  # Match Black's import style
