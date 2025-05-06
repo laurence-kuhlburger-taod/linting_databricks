@@ -23,5 +23,5 @@ jobs:
           pip install ruff
 
       # Step 4: Run Ruff for linting (on PRs or pushes)
-      - name: Run Ruff
+      - name: Run Ruff Linting
         run: ruff check --output-format=github .  # Runs Ruff with GitHub-friendly output
