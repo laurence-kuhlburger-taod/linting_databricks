@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Check out the code
       - name: Checkout Repository
         uses: actions/checkout@v3
 
@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"  # Specify the Python version you need
+          python-version: "3.10"  # Specify desired Python version
 
       # Step 3: Install Ruff
       - name: Install Ruff
@@ -28,12 +28,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install ruff
 
-      # Step 4: Run Ruff Linting
-      - name: Run Ruff
+      # Step 4: Run Ruff Linter
+      - name: Lint Code with Ruff
         run: |
           ruff . --format=github
-
-      # Step 5: Handle Linting Results
-      - name: Confirm Ruff Linting Completed
-        if: ${{ failure() }}
-        run: echo "Linting issues detected! Please fix them locally and push again."
