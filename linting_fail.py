@@ -12,3 +12,6 @@ print( "Another bad spacing here!") # Issue: space after `print(`
 
 import os  # This is an unused import which will also trigger Ruff linting errors
 import sys # Unused import
+
+
+print("Ughhhh why isn't the bot working :(")
