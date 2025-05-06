@@ -1,23 +1,24 @@
-name: Fix Linting on Request
+name: Fix Linting Bot
 
 on:
   issue_comment:
-    types: [created]  # Trigger on new comments
+    types: [created] # Run only when a comment is created, not edited or deleted
 
 jobs:
   fix-linting:
     if: >
-      github.event.issue.pull_request != null &&
-      contains(github.event.comment.body, '@github-bot fix linting')
+      github.event.issue.pull_request != null && # Ensure it's a comment on a Pull Request
+      contains(github.event.comment.body, '@github-bot fix linting') # Check for the specific command
     runs-on: ubuntu-latest
+
     steps:
       # Step 1: Checkout the PR branch
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.issue.pull_request.head.ref }}  # Checkout the PR branch
+          ref: ${{ github.event.issue.pull_request.head.ref }}
 
-      # Step 2: Set up Python environment
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -29,20 +30,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install ruff
 
-      # Step 4: Run Ruff to Fix Linting Issues
-      - name: Run Ruff Auto-fix
-        run: |
-          ruff --fix .
+      # Step 4: Run Ruff Auto-fix
+      - name: Run Ruff linter with auto-fix
+        run: ruff --fix .
 
-      # Step 5: Commit Auto-Fixes
-      - name: Commit Changes
+      # Step 5: Commit and push changes back to the PR branch
+      - name: Commit and Push Lint Fixes
         run: |
           git config --global user.name "github-bot"
           git config --global user.email "github-bot@example.com"
           git add .
-          git commit -m "fix: Auto-fix linting issues via Ruff"
-        continue-on-error: true  # Skip the commit step if no changes were made
-
-      # Step 6: Push Changes Back to the PR Branch
-      - name: Push Changes
-        run: git push
+          git commit -m "fix: Auto-fixed linting issues via Ruff"
+          git push
+        continue-on-error: true  # Avoid failure if no fixes were made
