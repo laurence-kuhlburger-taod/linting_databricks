@@ -15,5 +15,3 @@ import sys # Unused import
 
 
 print("Ughhhh why isn't the bot    working :(")
-
-     
