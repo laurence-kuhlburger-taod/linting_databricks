@@ -1,11 +1,11 @@
 name: Pre-Commit Hooks
 
 on:
-  pull_request:  # Runs on pull requests
-  push:          # Ensure hooks are tested on pushes as well
+  pull_request:    # Runs on pull requests
+  push:            # Also runs on pushes
     branches:
-      - main    # Adjust to your default/main branch
-      - dev     # Add other branches as necessary
+      - main       # Adjust to your main branch
+      - dev        # Add other branches as necessary
 
 jobs:
   pre-commit:
@@ -21,7 +21,7 @@ jobs:
       - name: Set Up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"  # Use the Python version supported by your project
+          python-version: "3.11"  # Match your project's Python version
 
       # Step 3: Install dependencies
       - name: Install pre-commit and Dependencies
