@@ -6,10 +6,9 @@ repos:
         args: ["--fix"]
 
 
-  # Prettier: Formatter for JS, JSON, CSS, etc.
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: 394a826d5c4ee9a85a31f9b24d4e03269e0c7b01  # mirrors-prettier@v3.1.0
+    rev: v3.1.0  # Replace with the desired version tag
     hooks:
       - id: prettier
         additional_dependencies:
-          - prettier@3.2.5  # Explicit version of Prettier to use
+          - prettier@3.2.5  # Specify the Prettier version you want to use
