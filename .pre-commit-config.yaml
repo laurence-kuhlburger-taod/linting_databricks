@@ -1,29 +1,29 @@
 repos:
-  # Ruff: Fast Python linter (includes flake8, pyflakes, etc.)
+  # Ruff: Fast Python linter (includes flake8 functionality)
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.4.4  # Latest as of May 2025
+    rev: 4f1f84f27e5e694155dd8d2781527e8f7a1d1f95  # ruff-pre-commit@v0.4.4
     hooks:
       - id: ruff
-        args: ["--fix"]  # Automatically fixes issues
+        args: ["--fix"]
 
-  # Black: Opinionated Python code formatter
+  # Black: Python code formatter
   - repo: https://github.com/psf/black
-    rev: 24.3.0  # Update to latest compatible version
+    rev: 01e1a2f647b999df84ab7e719b6f83c8d0d78c01  # black@24.3.0
     hooks:
       - id: black
 
-  # isort: Automatically organize imports
+  # isort: Import sorter
   - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.12.0
+    rev: 3c6d8165f902c6818fe218a40136a30a4fa53353  # mirrors-isort@v5.10.1
     hooks:
       - id: isort
-        args: ["--profile", "black"]  # Match Black's style
+        args: ["--profile", "black"]
 
-  # Pre-commit hooks for common issues (updated to avoid deprecated stages)
+  # Common file-formatting and hygiene hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0  # Updated to latest (as of May 2025)
+    rev: 1c6c459b3e8f8f5850c070591a29b2e5998b25d2  # pre-commit-hooks@v4.5.0
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-yaml
-      - id: check-added-large-files  # Optional: prevent large files in commits
+      - id: check-added-large-files
