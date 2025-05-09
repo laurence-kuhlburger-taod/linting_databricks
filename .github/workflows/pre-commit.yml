@@ -1,11 +1,11 @@
 name: Pre-Commit Hooks
 
 on:
-  pull_request:    # Runs on pull requests
-  push:            # Also runs on pushes
+  pull_request:
+  push:
     branches:
-      - main       # Adjust to your main branch
-      - dev        # Add other branches as necessary
+      - main
+      - dev
 
 jobs:
   pre-commit:
@@ -13,22 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python environment
       - name: Set Up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"  # Match your project's Python version
+          python-version: "3.11"
 
-      # Step 3: Install dependencies
-      - name: Install pre-commit and Dependencies
+      - name: Install Pre-Commit
         run: |
           python -m pip install --upgrade pip
           pip install pre-commit
 
-      # Step 4: Install and Run Pre-Commit Hooks
-      - name: Run Pre-Commit Hooks
+      - name: Run Pre-Commit
         run: pre-commit run --all-files --show-diff-on-failure
