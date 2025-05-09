@@ -1,34 +1,29 @@
 repos:
-  # Ruff: Fast Python linter
+  # Ruff: Fast Python linter (includes flake8, pyflakes, etc.)
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.287  # Use the specific version you need
+    rev: v0.4.4  # Latest as of May 2025
     hooks:
       - id: ruff
-        args: ["--fix"]  # Auto-fix linting issues when possible
+        args: ["--fix"]  # Automatically fixes issues
 
-  # Black: Python code formatter
+  # Black: Opinionated Python code formatter
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 24.3.0  # Update to latest compatible version
     hooks:
       - id: black
 
   # isort: Automatically organize imports
   - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.10.1
+    rev: v5.12.0
     hooks:
       - id: isort
-        args: ["--profile", "black"]  # Match Black's import style
+        args: ["--profile", "black"]  # Match Black's style
 
-  # Pre-commit hooks for common issues
+  # Pre-commit hooks for common issues (updated to avoid deprecated stages)
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0  # Ensure this is updated to resolve deprecation warnings
+    rev: v4.5.0  # Updated to latest (as of May 2025)
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-yaml
-
-  # Flake8: Use the PyPI mirror to avoid GitLab authentication issues
-  - repo: https://github.com/pre-commit/mirrors-flake8
-    rev: v6.1.0
-    hooks:
-      - id: flake8
+      - id: check-added-large-files  # Optional: prevent large files in commits
