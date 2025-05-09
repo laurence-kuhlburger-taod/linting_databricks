@@ -1,41 +1,38 @@
-name: Run Prettier on Command
+name: Run Prettier on Comment
 
 on:
   issue_comment:
-    types: [created]
+    types:
+      - created
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   run-prettier:
-    if: github.event.comment.body == '@gitbot run prettier'
+    if: github.event.issue.pull_request != null && contains(github.event.comment.body, 'run prettier')
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-      pull-requests: write
-
     steps:
-      - name: Checkout PR Branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.issue.pull_request.head.ref }}
-          repository: ${{ github.event.issue.pull_request.head.repo.full_name }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
 
-      - name: Install Prettier
-        run: npm install --global prettier
+    - name: Install dependencies
+      run: npm install
 
-      - name: Run Prettier
-        run: prettier --write .
+    - name: Run Prettier
+      run: npx prettier --write .
 
-      - name: Commit and Push Changes
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add .
-          git diff-index --quiet HEAD || git commit -m "style: auto-format with Prettier"
-          git push
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git diff-index --quiet HEAD || git commit -m "Ran Prettier on codebase"
+        git push
