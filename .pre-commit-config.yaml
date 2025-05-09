@@ -4,7 +4,7 @@ repos:
     rev: v0.0.287  # Use the specific version you need
     hooks:
       - id: ruff
-        args: ["--fix"]  # Auto-fix linting issues
+        args: ["--fix"]  # Auto-fix linting issues when possible
 
   # Black: Python code formatter
   - repo: https://github.com/psf/black
@@ -18,3 +18,23 @@ repos:
     hooks:
       - id: isort
         args: ["--profile", "black"]  # Match Black's import style
+        types: [python]  # Ensure this only runs for Python files
+
+  # Pre-commit hooks for common issues
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0  # Check https://github.com/pre-commit/pre-commit-hooks for latest
+    hooks:
+      # Ensures all text files end with a single newline
+      - id: end-of-file-fixer
+
+      # Removes trailing whitespace
+      - id: trailing-whitespace
+
+      # Checks YAML files for syntax correctness
+      - id: check-yaml
+
+      # Flake8: Optional if you want additional linting (can be removed if Ruff handles all your needs)
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
