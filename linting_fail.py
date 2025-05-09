@@ -14,4 +14,4 @@ import os  # This is an unused import which will also trigger Ruff linting error
 import sys # Unused import
 
 
-print("Ughhhh why isn't the bot working :(")
+print("Ughhhh why isn't the bot    working :(")
