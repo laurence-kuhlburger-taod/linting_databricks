@@ -13,15 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Step 2: Set up Python environment
       - name: Set Up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.11"  # Use the Python version supported by your project
 
+      # Step 3: Run Pre-Commit Hooks via Pre-Commit/Action
       - name: Run Pre-Commit Hooks
-        uses: pre-commit/action@v4
+        uses: pre-commit/action@v4  # Alternatives: @v4.0.0, @v3, or SHA
         with:
           extra_args: --color=always --show-diff-on-failure
