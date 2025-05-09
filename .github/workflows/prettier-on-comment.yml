@@ -1,0 +1,41 @@
+name: Run Prettier on Command
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  run-prettier:
+    if: github.event.comment.body == '@gitbot run prettier'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout PR Branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.issue.pull_request.head.ref }}
+          repository: ${{ github.event.issue.pull_request.head.repo.full_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Prettier
+        run: npm install --global prettier
+
+      - name: Run Prettier
+        run: prettier --write .
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "style: auto-format with Prettier"
+          git push
