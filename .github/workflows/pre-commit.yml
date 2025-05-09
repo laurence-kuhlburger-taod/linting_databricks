@@ -1,11 +1,11 @@
-name: Pre-Commit
+name: Pre-Commit Hooks
 
 on:
-  pull_request:
-  push:
+  pull_request:  # Runs on pull requests
+  push:          # Ensure hooks are tested on pushes as well
     branches:
-      - main
-      - dev
+      - main    # Adjust to your default/main branch
+      - dev     # Add other branches as necessary
 
 jobs:
   pre-commit:
@@ -13,28 +13,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Step 2: Set up Python environment
       - name: Set Up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.11"  # Use the Python version supported by your project
 
-      - name: Install Pre-Commit and Dependencies
+      # Step 3: Install dependencies
+      - name: Install pre-commit and Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pre-commit
 
+      # Step 4: Install and Run Pre-Commit Hooks
       - name: Run Pre-Commit Hooks
-        id: precommit
-        run: |
-          pre-commit run --all-files --show-diff-on-failure 2>&1 | tee pre-commit-output.log
-        continue-on-error: true
-
-      - name: Upload Pre-Commit Logs (if failure)
-        if: failure()
-        uses: actions/upload-artifact@v3 # Ensure this is correctly specified
-        with:
-          name: pre-commit-logs
-          path: pre-commit-output.log
+        run: pre-commit run --all-files --show-diff-on-failure
