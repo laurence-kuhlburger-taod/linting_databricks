@@ -1,29 +1,13 @@
 repos:
-  # Ruff: Fast Python linter (includes flake8 functionality)
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 4f1f84f27e5e694155dd8d2781527e8f7a1d1f95  # ruff-pre-commit@v0.4.4
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "v3.1.0"
     hooks:
-      - id: ruff
-        args: ["--fix"]
+      - id: prettier
+        additional_dependencies:
+          - prettier@3.2.5
 
-  # Black: Python code formatter
-  - repo: https://github.com/psf/black
-    rev: 01e1a2f647b999df84ab7e719b6f83c8d0d78c01  # black@24.3.0
+  - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+    rev: "3.1.2"
     hooks:
-      - id: black
-
-  # isort: Import sorter
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: 3c6d8165f902c6818fe218a40136a30a4fa53353  # mirrors-isort@v5.10.1
-    hooks:
-      - id: isort
-        args: ["--profile", "black"]
-
-  # Common file-formatting and hygiene hooks
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 1c6c459b3e8f8f5850c070591a29b2e5998b25d2  # pre-commit-hooks@v4.5.0
-    hooks:
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
-      - id: check-yaml
-      - id: check-added-large-files
+      - id: editorconfig-checker
+        alias: ec
