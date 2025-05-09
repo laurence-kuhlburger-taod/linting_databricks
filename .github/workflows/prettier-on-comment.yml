@@ -1,38 +1,32 @@
-name: Run Prettier on Comment
-
 on:
   issue_comment:
-    types:
-      - created
-
-permissions:
-  contents: write
-  pull-requests: write
+    types: [created]
 
 jobs:
-  run-prettier:
-    if: github.event.issue.pull_request != null && contains(github.event.comment.body, 'run prettier')
+  prettier:
     runs-on: ubuntu-latest
-
+    name: Run Prettier
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # see https://github.com/stefanzweifel/git-auto-commit-action#commits-of-this-action-do-not-trigger-new-workflow-runs
+          token: ${{ secrets.PRIVATE_ACCESS_TOKEN }}
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: npm install
+      - run: npm ci
 
-    - name: Run Prettier
-      run: npx prettier --write .
+      - name: run prettier command
+        uses: ykpythemind/run_prettier_action@v1
+        with:
+          prettier_command: ./node_modules/.bin/prettier --write
+          GITHUB_TOKEN: ${{ secrets.PRIVATE_ACCESS_TOKEN }}
 
-    - name: Commit and push changes
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add .
-        git diff-index --quiet HEAD || git commit -m "Ran Prettier on codebase"
-        git push
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply prettier changes
+          skip_fetch: true
